@@ -43,5 +43,13 @@
     "@deepseek-ai/dsh-skill": ">=0.2.0-rc.2 <0.3.0-0",
     "@deepseek-ai/dsh-tools": ">=0.2.0-rc.2 <0.3.0-0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jhao0413/dsh-video-clip.git"
+  },
+  "homepage": "https://github.com/jhao0413/dsh-video-clip#readme",
+  "bugs": {
+    "url": "https://github.com/jhao0413/dsh-video-clip/issues"
+  }
 }
