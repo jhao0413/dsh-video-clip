@@ -1,0 +1,47 @@
+{
+  "name": "dsh-video-clip",
+  "version": "0.1.0",
+  "description": "DSH 插件：按时间区间下载视频片段（yt-dlp --download-sections，DASH 不可定位时自动回退 HLS），抽帧核对边界，并把成片分享成内网 HTTP 下载链接。",
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22",
+    "dsh": ">=0.2.0-rc.2 <0.3.0-0"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "video",
+    "clip",
+    "segment",
+    "yt-dlp",
+    "download"
+  ],
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/clip.mjs",
+    "test": "node test/smoke.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "~4.0.4",
+    "@deepseek-ai/dsh-agent": ">=0.2.0-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-skill": ">=0.2.0-rc.2 <0.3.0-0",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-rc.2 <0.3.0-0"
+  },
+  "license": "MIT"
+}
