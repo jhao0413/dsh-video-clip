@@ -1,5 +1,7 @@
 # dsh-video-clip
 
+[![npm](https://img.shields.io/npm/v/dsh-video-clip.svg)](https://www.npmjs.com/package/dsh-video-clip)
+
 给 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）用的插件：
 **按时间区间下载视频片段，只下需要的那一段，下载完还能抽帧核对边界、直接给出内网下载链接。**
 
@@ -26,11 +28,14 @@
 ## 安装
 
 ```bash
-# 从 npm（发布后）
+# 从 npm
 dsh plugin --profile web add dsh-video-clip
 
 # 本地开发：直接指向本目录
 dsh plugin --profile web add link:/绝对路径/dsh-video-clip
+
+# 固定 tag / commit（npm 不可达时）
+dsh plugin --profile web add github:jhao0413/dsh-video-clip#v0.1.1
 
 # 卸载
 dsh plugin --profile web remove dsh-video-clip
