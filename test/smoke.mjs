@@ -124,6 +124,43 @@ await step("file_share 目录分享不暴露列表", async () => {
 	stopShare({ id: started.shareId });
 });
 
+await step("file_share 单文件分享拒绝同目录其它文件", async () => {
+	const controller = new AbortController();
+	const sibling = path.join(tmp, "sibling.txt");
+	await fsp.writeFile(sibling, "nope");
+	const started = await tools.get("file_share").execute(
+		{ action: "start", path: demoFile, ttlSeconds: 60 },
+		{ signal: controller.signal, agent: undefined },
+	);
+	const base = started.urls[0];
+	assert.equal((await fetch(base)).status, 200);
+	assert.equal((await fetch(base.replace(/[^/]+$/, "sibling.txt"))).status, 404);
+	stopShare({ id: started.shareId });
+});
+
+await step("file_share 拒绝符号链接越界（realpath 边界）", async () => {
+	const controller = new AbortController();
+	const shareDir = path.join(tmp, "shared");
+	await fsp.mkdir(shareDir, { recursive: true });
+	await fsp.writeFile(path.join(shareDir, "inside.txt"), "hello");
+	const secret = path.join(tmp, "secret.txt");
+	await fsp.writeFile(secret, "SECRET");
+	await fsp.symlink(secret, path.join(shareDir, "leak.txt"));
+	await fsp.symlink(tmp, path.join(shareDir, "up"));
+	await fsp.symlink(path.join(shareDir, "inside.txt"), path.join(shareDir, "alias.txt"));
+	const started = await tools.get("file_share").execute(
+		{ action: "start", path: shareDir, ttlSeconds: 60 },
+		{ signal: controller.signal, agent: undefined },
+	);
+	assert.equal(started.ok, true, started.error);
+	const base = started.urls[0];
+	assert.equal((await fetch(`${base}inside.txt`)).status, 200);
+	assert.equal((await fetch(`${base}alias.txt`)).status, 200);
+	assert.equal((await fetch(`${base}leak.txt`)).status, 404);
+	assert.equal((await fetch(`${base}up/secret.txt`)).status, 404);
+	stopShare({ id: started.shareId });
+});
+
 const sampleVideo = "/data/bitlab-2026-11/download/2026未来科学大奖周-科学峰会2_050650-053134.mp4";
 if (fs.existsSync(sampleVideo)) {
 	await step("video_clip_verify 抽帧拼图", async () => {

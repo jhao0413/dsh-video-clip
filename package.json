@@ -1,6 +1,6 @@
 {
   "name": "dsh-video-clip",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DSH 插件：按时间区间下载视频片段（yt-dlp --download-sections，DASH 不可定位时自动回退 HLS），抽帧核对边界，并把成片分享成内网 HTTP 下载链接。",
   "type": "module",
   "main": "lib/index.js",

@@ -69,6 +69,7 @@ dsh plugin --profile web remove dsh-video-clip
 | `stop` | `shareId` | 停止指定分享；省略停止全部 |
 
 默认 30 分钟自动关闭；支持 Range（断点续传、视频拖动）；目录分享不暴露列表页。
+路径边界按 `realpath` 判定：共享目录内指向目录外的符号链接/目录联接会被拒绝，单文件分享只允许那一个真实文件。
 
 ## 为什么长视频优先走 HLS
 
